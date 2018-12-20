@@ -26,9 +26,9 @@ spring:
       datasource:
         master:
           username: root
-          password: root
+          password: milk-tea
           driver-class-name: com.mysql.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/data?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=UTC
+          url: jdbc:mysql://106.12.86.22:3306/milk_tea?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=UTC
   application:
     name: egg-with-tomato
 mybatis-plus:
