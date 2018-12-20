@@ -38,6 +38,17 @@ public class AffraityException extends RuntimeException {
     log.error(ERROR_MSG_TEMPLATE_MODULE,this.module,this.code,this.msg);
   }
 
+  public AffraityException(String code,Exception e){
+    super(e);
+    this.code = code;
+    this.msg = e.getMessage();
+    log.error(ERROR_MSG_TEMPLATE_NO_MODULE,this.code,this.msg);
+  }
+
+  public AffraityException(Exception e){
+    super(e);
+  }
+
   public String getCode() {
     return code;
   }

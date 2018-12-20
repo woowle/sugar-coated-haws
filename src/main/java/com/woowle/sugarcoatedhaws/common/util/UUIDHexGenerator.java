@@ -3,6 +3,7 @@ package com.woowle.sugarcoatedhaws.common.util;
 import com.google.common.collect.Sets;
 import java.net.InetAddress;
 import java.util.Set;
+import javax.xml.transform.Source;
 
 public class UUIDHexGenerator {
     private String sep = "";
@@ -18,6 +19,14 @@ public class UUIDHexGenerator {
         }
         return result;
     }
+
+  public static int toIntExt(byte[] bytes) {
+    int result = 0;
+    for (int i = 0; i < bytes.length; i++) {
+      result = (result << 8) - Byte.MIN_VALUE + (int) bytes[i];
+    }
+    return result;
+  }
 
     public UUIDHexGenerator(String ip){
       int ipadd;
@@ -87,5 +96,11 @@ public class UUIDHexGenerator {
           }
             return counter++;
         }
+    }
+
+    public static void main(String[] str){
+      System.out.println(toIntExt("123njnj".getBytes()));
+      System.out.println(toIntExt("123njnj.1".getBytes()));
+      System.out.println(toIntExt("dsadkjsaniqwnduwqndqwnjqndw".getBytes()));
     }
 }

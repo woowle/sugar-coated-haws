@@ -5,16 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.woowle.sugarcoatedhaws.common.VO.Result;
 import com.woowle.sugarcoatedhaws.common.util.RequestUtil;
 import com.woowle.sugarcoatedhaws.common.util.UUIDHexGenerator;
+import com.woowle.sugarcoatedhaws.crypto.AESHelper;
 import com.woowle.sugarcoatedhaws.crypto.SaltCode;
 import com.woowle.sugarcoatedhaws.mapper.UserMapper;
 import com.woowle.sugarcoatedhaws.model.User;
 import com.woowle.sugarcoatedhaws.model.request.LoginRequest;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -41,7 +41,9 @@ public class LoginService{
       JSONObject json = new JSONObject();
       json.put("time",System.currentTimeMillis());
       json.put("userName",loginRequest.getUserName());
-      String token = DigestUtils.md5DigestAsHex(json.toJSONString().getBytes());
+      json.put("random",SaltCode.getSalt(String.valueOf(Math.atan2(Math.random()*10000,(Math.random()*10000)))));
+      String token = String.valueOf(AESHelper.encryptEZ(json.toJSONString(),user.getSalt()));
+//      String result = String.valueOf(AESHelper.decryptEZ(token,user.getSalt()));
       return Result.success(token);
     }else{
       return Result.failed("0001","密码错误");
@@ -61,7 +63,7 @@ public class LoginService{
      String sugar = SaltCode.chaos(password,salt);
      user.setSugar(sugar);
      user.setId(new UUIDHexGenerator(RequestUtil.getIpAddr(request)).generate());
-     user.setAccountId(Math.abs(UUIDHexGenerator.toInt(userName.getBytes())));
+     user.setAccountId(Math.abs(UUIDHexGenerator.toIntExt(userName.getBytes())));
      user.setRole(1);
      userMapper.insert(user);
      LoginRequest loginRequest = new LoginRequest();
