@@ -18,7 +18,7 @@ public class ServerInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
-    String ip = RequestUtil.getRemoteAddr(request);
+    String ip = RequestUtil.getIpAddr(request);
     String uri = RequestUtil.trimURI(request);
     String requestId = RequestUtil.resolveReqId(ip);
     request.setAttribute("requestId", requestId);

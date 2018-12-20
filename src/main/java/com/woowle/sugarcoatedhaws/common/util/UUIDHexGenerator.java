@@ -6,16 +6,8 @@ import java.util.Set;
 
 public class UUIDHexGenerator {
     private String sep = "";
-    private static final int IP;
-    static {
-        int ipadd;
-        try {
-            ipadd = toInt(InetAddress.getLocalHost().getAddress());
-        } catch (Exception e) {
-            ipadd = 0;
-        }
-        IP = ipadd;
-    }
+    private static  int IP;
+
     private static short counter = (short) 0;
     private static final int JVM = (int) (System.currentTimeMillis() >>> 8);
 
@@ -27,6 +19,15 @@ public class UUIDHexGenerator {
         return result;
     }
 
+    public UUIDHexGenerator(String ip){
+      int ipadd;
+      try {
+        ipadd = toInt(ip.getBytes());
+      } catch (Exception e) {
+        ipadd = 0;
+      }
+      IP = ipadd;
+    }
     /**
      * Unique in a local network
      */
@@ -85,20 +86,6 @@ public class UUIDHexGenerator {
             counter = 0;
           }
             return counter++;
-        }
-    }
-
-    public static void main(String[] args) {
-        UUIDHexGenerator uuidHexGenerator = new UUIDHexGenerator();
-        Set<String> set = Sets.newHashSet();
-        for(int i = 1;i<=10000000;i++) {
-            String generate = uuidHexGenerator.generate();
-            if(set.contains(generate)) {
-                System.out.println("+++++++++++++++++ i = :"+i+"+++++++++++++++++");
-                return;
-            }
-            set.add(generate);
-            System.out.println(generate);
         }
     }
 }

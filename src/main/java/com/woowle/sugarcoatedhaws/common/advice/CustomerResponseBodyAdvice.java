@@ -35,7 +35,7 @@ public class CustomerResponseBodyAdvice implements ResponseBodyAdvice {
       ServerHttpResponse response) {
     if (body instanceof Result) {
       ServletServerHttpRequest req = (ServletServerHttpRequest) request;
-      String ip = RequestUtil.getRemoteAddr(req.getServletRequest());
+      String ip = RequestUtil.getIpAddr(req.getServletRequest());
       String uri = RequestUtil.trimURI(req.getServletRequest());
       ((Result) body).setRequestId(req.getServletRequest().getAttribute("requestId").toString());
       logger.info(
