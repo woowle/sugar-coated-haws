@@ -31,7 +31,7 @@ public class LoginService{
 
 
 
-  public Result login(LoginRequest loginRequest){
+  public Result login(LoginRequest loginRequest,HttpServletRequest request){
     if(StringUtils.isBlank(loginRequest.getUserName())||StringUtils.isBlank(loginRequest.getPassword())){
       return Result.failed("0001","信息不全");
     }
@@ -45,6 +45,7 @@ public class LoginService{
       JSONObject json = new JSONObject();
       json.put("time",System.currentTimeMillis());
       json.put("userName",loginRequest.getUserName());
+      json.put("ip",RequestUtil.getIpAddr(request));
       json.put("random",SaltCode.getSalt(String.valueOf(Math.atan2(Math.random()*10000,(Math.random()*10000)))));
       String token = String.valueOf(AESHelper.encryptEZ(json.toJSONString(),user.getSalt()));
       new RedisUtil().set(RedisKeyConstants.USER_TOKEN+token,user.getSalt(),1000*60*30);
@@ -73,7 +74,7 @@ public class LoginService{
      LoginRequest loginRequest = new LoginRequest();
      loginRequest.setUserName(userName);
      loginRequest.setPassword(password);
-     return login(loginRequest);
+     return login(loginRequest,request);
     }
     return Result.failed("0001","该用户已被注册！");
   }
