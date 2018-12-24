@@ -54,7 +54,7 @@ public class LoginInterceptor implements HandlerInterceptor {
       return false;
     }
     if(StringUtils.isNotBlank(request.getParameter("userName"))){
-      if(request.getParameter("userName").equalsIgnoreCase(json.getString("userName"))){
+      if(!request.getParameter("userName").equalsIgnoreCase(json.getString("userName"))){
         response.setHeader("Content-type", "json/html;charset=UTF-8");
         response.getOutputStream().write(Result.failed("0001","错误的授权").toJson().getBytes(
             StandardCharsets.UTF_8));

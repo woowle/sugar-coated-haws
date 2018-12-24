@@ -28,4 +28,9 @@ public class LoginController {
     return loginService.register(userName,password,request);
   }
 
+  @PostMapping("/logout")
+  public Result logout(HttpServletRequest request,String userName){
+    return loginService.logout(request,userName);
+  }
+
 }
