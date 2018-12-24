@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.woowle.sugarcoatedhaws.common.VO.Result;
 import com.woowle.sugarcoatedhaws.common.constant.RedisKeyConstants;
 import com.woowle.sugarcoatedhaws.common.util.RedisUtil;
+import com.woowle.sugarcoatedhaws.common.util.RequestUtil;
 import com.woowle.sugarcoatedhaws.crypto.AESHelper;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -19,7 +20,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
  **/
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
-  Map<String,Long> session = Maps.newConcurrentMap();
 
   @Override
    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -45,6 +45,13 @@ public class LoginInterceptor implements HandlerInterceptor {
     if(System.currentTimeMillis() - time > 1000*60*30 ){
       response.setHeader("Content-type", "json/html;charset=UTF-8");
       response.getOutputStream().write(Result.failed("0001","授权时间已到").toJson().getBytes(
+          StandardCharsets.UTF_8));
+      return false;
+    }
+    String ip = RequestUtil.getIpAddr(request);
+    if(!ip.equalsIgnoreCase(json.getString("ip"))){
+      response.setHeader("Content-type", "json/html;charset=UTF-8");
+      response.getOutputStream().write(Result.failed("0001","错误的授权地址").toJson().getBytes(
           StandardCharsets.UTF_8));
       return false;
     }

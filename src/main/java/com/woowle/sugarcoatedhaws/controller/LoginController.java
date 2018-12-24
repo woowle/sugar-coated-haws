@@ -19,8 +19,8 @@ public class LoginController {
   public LoginService loginService;
 
   @PostMapping("/login")
-  public Result login(LoginRequest loginRequest){
-    return loginService.login(loginRequest);
+  public Result login(LoginRequest loginRequest,HttpServletRequest request){
+    return loginService.login(loginRequest,request);
   }
 
   @PostMapping("/register")
