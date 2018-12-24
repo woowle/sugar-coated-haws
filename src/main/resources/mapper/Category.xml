@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woowle.sugarcoatedhaws.mapper.CategoryMapper">
+
+
+	<resultMap id="ChildResultMap" type="com.woowle.sugarcoatedhaws.model.response.ChildCategory" >
+		<id column="id" property="id"  />
+		<result column="category_code" property="categoryCode" />
+		<result column="name" property="name" />
+		<result column="level" property="level"  />
+		<result column="parent_node_code" property="parentNodeCode" />
+		<result column="is_delete" property="isDelete"  />
+		<collection property="child" ofType="com.woowle.sugarcoatedhaws.model.Category">
+			<id column="id2" property="id"  />
+			<result column="category_code2" property="categoryCode" />
+			<result column="name2" property="name" />
+			<result column="level2" property="level"  />
+			<result column="parent_node_code2" property="parentNodeCode" />
+			<result column="is_delete2" property="isDelete"  />
+		</collection>
+	</resultMap>
+
+	<select id="getChildNode" resultMap="ChildResultMap" parameterType="String">
+		SELECT
+    c1.id,
+    c1.category_code,
+    c1.name,
+    c1.level,
+    c1.parent_node_code,
+    c1.is_delete,
+    c2.id id2,
+    c2.category_code category_code2,
+    c2.name name2,
+    c2.level level2,
+    c2.parent_node_code parent_node_code2,
+    c2.is_delete is_delete2
+	FROM
+    category c1
+    left join category c2 on c2.parent_node_code = c1.category_code
+	WHERE
+    c1.parent_node_code =  #{categoryCode} and c1.is_delete=0 and c2.is_delete=0;
+	</select>
+</mapper>
