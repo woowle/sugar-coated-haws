@@ -3,6 +3,8 @@ package com.woowle.sugarcoatedhaws.service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.woowle.sugarcoatedhaws.common.VO.Result;
+import com.woowle.sugarcoatedhaws.common.constant.RedisKeyConstants;
+import com.woowle.sugarcoatedhaws.common.util.RedisUtil;
 import com.woowle.sugarcoatedhaws.common.util.RequestUtil;
 import com.woowle.sugarcoatedhaws.common.util.UUIDHexGenerator;
 import com.woowle.sugarcoatedhaws.crypto.AESHelper;
@@ -15,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 
 /**
@@ -25,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class LoginService{
   @Autowired
   private UserMapper userMapper;
+
 
 
   public Result login(LoginRequest loginRequest){
@@ -43,7 +47,7 @@ public class LoginService{
       json.put("userName",loginRequest.getUserName());
       json.put("random",SaltCode.getSalt(String.valueOf(Math.atan2(Math.random()*10000,(Math.random()*10000)))));
       String token = String.valueOf(AESHelper.encryptEZ(json.toJSONString(),user.getSalt()));
-//      String result = String.valueOf(AESHelper.decryptEZ(token,user.getSalt()));
+      new RedisUtil().set(RedisKeyConstants.USER_TOKEN+token,user.getSalt(),1000*60*30);
       return Result.success(token);
     }else{
       return Result.failed("0001","密码错误");
