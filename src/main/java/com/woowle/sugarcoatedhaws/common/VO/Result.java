@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -18,6 +19,7 @@ public class Result {
   private Object resultData;
   @SerializedName("request_id")
   private String requestId;
+
 
   private Result(Integer success){
     this.success=success;

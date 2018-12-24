@@ -1,14 +1,12 @@
 package com.woowle.sugarcoatedhaws.common.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Maps;
 import com.woowle.sugarcoatedhaws.common.VO.Result;
 import com.woowle.sugarcoatedhaws.common.constant.RedisKeyConstants;
 import com.woowle.sugarcoatedhaws.common.util.RedisUtil;
 import com.woowle.sugarcoatedhaws.common.util.RequestUtil;
 import com.woowle.sugarcoatedhaws.crypto.AESHelper;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;

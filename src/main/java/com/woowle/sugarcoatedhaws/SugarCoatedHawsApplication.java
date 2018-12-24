@@ -6,12 +6,14 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class,scanBasePackages = "com.woowle.sugarcoatedhaws")
 @MapperScan("com.woowle.sugarcoatedhaws.mapper")
+@EnableCaching
 public class SugarCoatedHawsApplication {
 
   public static void main(String[] args) {
