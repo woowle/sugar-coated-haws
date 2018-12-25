@@ -50,9 +50,9 @@ public class LoginService{
         JSONObject json = JSONObject.parseObject(jsonStr);
         String ipOld = json.getString("ip");
         if (ipOld.equalsIgnoreCase(ip)) {
-          redisUtil
-              .expire(RedisKeyConstants.USER_LIST + loginRequest.getUserName(), 1000 * 60 * 30);
-          redisUtil.expire(RedisKeyConstants.USER_TOKEN + token, 1000 * 60 * 30);
+//          redisUtil
+//              .expire(RedisKeyConstants.USER_LIST + loginRequest.getUserName(), 1000 * 60 * 30);
+//          redisUtil.expire(RedisKeyConstants.USER_TOKEN + token, 1000 * 60 * 30);
           return Result.success(token);
         }
       }
