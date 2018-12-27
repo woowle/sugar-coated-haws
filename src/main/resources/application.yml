@@ -30,7 +30,7 @@ spring:
           driver-class-name: com.mysql.jdbc.Driver
           url: jdbc:mysql://106.12.86.22:3306/milk_tea?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=UTC
   application:
-    name: egg-with-tomato
+    name: sugar-coated-haws
   redis:
     database: 0
     host: 106.12.86.22
@@ -60,5 +60,10 @@ logging:
 server:
   port: 12333
 
-
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://106.12.86.22:8761/eureka/
 
